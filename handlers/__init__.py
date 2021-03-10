@@ -1,3 +1,4 @@
+from .exchange import dp
 from .help import dp
 from .list_rates import dp
 
