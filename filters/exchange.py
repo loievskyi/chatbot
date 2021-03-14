@@ -7,8 +7,7 @@ from aiogram import types
 class IsExchange(BoundFilter):
     # start with /exchange
     async def check(self, message: types.Message):
-        return bool(re.match(re.compile("^/exchange.*$", flags=re.IGNORECASE),
-                    message.text))
+        return message.text.startswith("/exchange")
 
 
 class IsExchangeCorrectFormat(BoundFilter):
