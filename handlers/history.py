@@ -24,10 +24,9 @@ async def bot_exchange_correct_format(message: types.Message):
         f"start_at={start_day:%Y-%m-%d}&end_at={curent_day:%Y-%m-%d}" + \
         f"&base={base_curency}&symbols={final_curency}"
     history = requests.get(url).json()
-    with open("result.json", "wt+") as file:
-        json.dump(history, file)
     title = message.text[1:]
-    file_name = create_graph(history, base_curency, final_curency, title=title)
+    file_name, title = create_graph(history, base_curency, final_curency,
+                                    start_day, curent_day, title=title)
 
     with open(file_name, "rb") as photo:
         await message.answer_photo(photo, caption=title)
