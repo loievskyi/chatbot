@@ -9,11 +9,11 @@ from helpers.list_rates import get_exchange_rates, format_to_request_dict
 @dp.message_handler(IsExchangeCorrectFormat())
 async def bot_exchange_correct_format(message: types.Message):
     amount_of_money = message.text.split()[1]
-    base_currency = message.text.split()[2]
-    final_currency = message.text.split()[-1]
+    base_currency = message.text.split()[2].upper()
+    final_currency = message.text.split()[-1].upper()
 
     rates = format_to_request_dict(await get_exchange_rates(base_currency))
-    if final_currency not in rates:
+    if final_currency not in rates or base_currency not in rates:
         await message.answer("This currency is not listed.")
     else:
         result_sum = float(amount_of_money) * float(rates[final_currency])

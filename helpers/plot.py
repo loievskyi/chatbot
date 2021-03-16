@@ -16,6 +16,16 @@ def fill_empty_days(dates: list, rates: list, start_day: str, curent_day: str):
             rates.append(None)
 
 
+def has_empty_days(dates: list, start_day: str, curent_day: str):
+    dates_range = pd.date_range(start=pd.to_datetime(start_day),
+                                end=pd.to_datetime(curent_day))
+    for date in dates_range:
+        if date not in dates:
+            return True
+
+    return False
+
+
 def create_graph(data: dict, base_curency: str, final_curency: str,
                  start_day: str, curent_day: str, title: str=""):
     plt.close("all")
@@ -28,10 +38,10 @@ def create_graph(data: dict, base_curency: str, final_curency: str,
         dates.append(pd.to_datetime(date))
         rates.append(values.get(final_curency))
 
-    fill_empty_days(dates, rates, start_day, curent_day)
+    # fill_empty_days(dates, rates, start_day, curent_day)
     df = pd.DataFrame({"dates": dates, "rates": rates})
     df = df.sort_values(by="dates")
-    if None in rates:
+    if has_empty_days(dates=dates, start_day=start_day, curent_day=curent_day):
         title = "No exchange rate data is available for the selected currency. \n" + title
 
     plt.plot()
